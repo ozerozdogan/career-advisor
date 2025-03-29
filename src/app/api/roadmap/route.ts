@@ -84,7 +84,7 @@ export async function POST(request: Request) {
         'messages': [
           {
             'role': 'user',
-            'content': `Generate a detailed technical learning roadmap for a ${jobTitle}. The response MUST be a valid JSON object with the following structure:
+            'content': `Generate a detailed learning roadmap for a ${jobTitle}. The response MUST be a valid JSON object with the following structure:
             {
               "nodes": [
                 {
