@@ -1,11 +1,11 @@
-# 🚀 Career Advisor - AI-Powered Career Roadmap Generator
+# Career Advisor - AI-Powered Career Roadmap Generator
 
 ![Career Roadmap Generator](https://img.shields.io/badge/Status-Prototype-orange)
 ![Next.js](https://img.shields.io/badge/Next.js-Framework-blue)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Styling-blueviolet)
 ![OpenRouter](https://img.shields.io/badge/OpenRouter-AI_Integration-brightgreen)
 
-This project helps users generate detailed career roadmaps for various job titles using OpenRouter API.
+A web application that helps users define their desired career paths and provides AI-generated learning roadmaps, beautifully visualized with ReactFlow. Built with Next.js, Tailwind CSS, and integrated with OpenRouter API for dynamic roadmap generation. The application generates detailed, interactive career roadmaps with hierarchical skill structures, color-coded by importance levels, allowing users to explore the skills, technologies, and knowledge areas required for their target roles.
 
 > **⚠️ Note:** This is a prototype project currently in development. It was developed with assistance from [Cursor](https://cursor.com/). The application does not include usage/error logging or rate limiting features at this stage. As this is an early version, some features may be incomplete or subject to change.
 
