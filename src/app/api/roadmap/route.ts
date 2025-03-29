@@ -25,7 +25,7 @@ interface RoadmapData {
 
 const JobTitleSchema = z.string()
   .min(1, { message: "Job title cannot be empty" })
-  .regex(/^[a-zA-Z\s-]+$/, { message: "Job title can only contain letters, spaces, and hyphens" });
+  .regex(/^[a-zA-Z\s\/-]+$/, { message: "Job title can only contain letters, spaces, hyphens, and forward slashes" });
 
 export async function POST(request: Request) {
   try {
