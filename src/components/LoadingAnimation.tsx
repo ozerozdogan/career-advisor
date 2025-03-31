@@ -7,13 +7,10 @@ interface LoadingAnimationProps {
 }
 
 export default function LoadingAnimation({ stage }: LoadingAnimationProps) {
-  const [hasCompletedOnce, setHasCompletedOnce] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (hasCompletedOnce) return;
-
     const messages = [
       'Analyzing your job title...',
       'Identifying career paths for your role...',
@@ -27,28 +24,15 @@ export default function LoadingAnimation({ stage }: LoadingAnimationProps) {
       'Finalizing your personalized roadmap...'
     ];
     
-    let currentIndex = 0;
-    const totalMessages = messages.length;
-
-    const showMessages = () => {
-      if (currentIndex < messages.length) {
-        setLoadingMessage(messages[currentIndex]);
-        setProgress(Math.round(((currentIndex + 1) / totalMessages) * 100));
-        currentIndex++;
-        setTimeout(showMessages, 2000);
-      } else {
-        setHasCompletedOnce(true);
-      }
-    };
-
-    showMessages();
-  }, []);
-
-  const resetLoadingMessages = () => {
-    setHasCompletedOnce(false);
-    setLoadingMessage('');
-    setProgress(0);
-  };
+    const messageIndex = Math.min(stage - 1, messages.length - 1);
+    if (messageIndex >= 0) {
+      setLoadingMessage(messages[messageIndex]);
+      setProgress(Math.round(((messageIndex + 1) / messages.length) * 100));
+    } else {
+      setLoadingMessage('');
+      setProgress(0);
+    }
+  }, [stage]);
 
   return (
     <div className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-xl border border-blue-100">

@@ -86,14 +86,22 @@ export default function Home() {
     
     try {
       setLoadingStage(1);
-      setTimeout(() => setLoadingStage(2), 2000);
-      setTimeout(() => setLoadingStage(3), 4000);
+      
+      const loadingInterval = setInterval(() => {
+        setLoadingStage(prevStage => {
+          return prevStage < 9 ? prevStage + 1 : prevStage;
+        });
+      }, 1000);
       
       const data = await fetchRoadmap(validationResult.data);
       setRoadmapData(data);
       
-      setShowLoadingPopup(false);
+      clearInterval(loadingInterval);
       
+      setLoadingStage(10);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setShowLoadingPopup(false);
       setShowPopup(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
