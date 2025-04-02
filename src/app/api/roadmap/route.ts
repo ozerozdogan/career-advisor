@@ -25,6 +25,8 @@ interface RoadmapData {
 
 const JobTitleSchema = z.string()
   .min(1, { message: "Job title cannot be empty" })
+  .max(50, { message: "Job title cannot exceed 50 characters" })
+  .trim()
   .regex(/^[a-zA-Z\s\/-]+$/, { message: "Job title can only contain letters, spaces, hyphens, and forward slashes" });
 
 export async function POST(request: Request) {
@@ -112,6 +114,15 @@ export async function POST(request: Request) {
               - tertiary: Normal (light orange background)
             3. Group related technologies and concepts together
             4. Create meaningful connections between nodes
+
+            IMPORTANT: Consider both technical skills AND soft skills that are relevant to the ${jobTitle} role. Depending on the role, include appropriate soft skills such as:
+            
+            - Professional Communication Skills (if relevant to the role)
+            - Professional Networking (for roles that require industry connections)
+            - Interpersonal Skills (teamwork, leadership, etc. as appropriate)
+            - Career Development aspects (if important for career progression in this field)
+
+            The goal is to create a well-balanced roadmap that reflects ALL important aspects of the ${jobTitle} role, not just technical requirements.
 
             For example, for a DevOps role, the structure would include:
             1. Learn programming languages:

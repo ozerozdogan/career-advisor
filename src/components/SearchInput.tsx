@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { z } from 'zod';
 
 interface SearchInputProps {
   onSearch: (jobTitle: string) => void;
@@ -9,16 +10,27 @@ interface SearchInputProps {
 
 const examples = [
   "Full Stack Developer",
+  "Legal Assistant",
+  "Growth Marketing Manager",
+  "SEO Specialist",
   "DevOps Engineer",
-  "Marketing Manager",
+  "Human Resources Director",
   "Playable Ads Developer",
-  "AI/ML Engineer",
+  "ML Engineer",
   "Blockchain Developer",
   "Cloud Solutions Architect",
   "Data Scientist",
   "Cybersecurity Specialist",
   "UI/UX Designer",
 ];
+
+const searchSchema = z.object({
+  jobTitle: z
+    .string()
+    .min(1, "Job title cannot be empty")
+    .max(50, "Job title cannot exceed 50 characters")
+    .trim()
+});
 
 export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -27,6 +39,7 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
   const [charIndex, setCharIndex] = useState<number>(0);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const typingInterval = setInterval(() => {
@@ -61,8 +74,20 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputValue.trim()) {
-      onSearch(inputValue.trim());
+    const result = searchSchema.safeParse({ jobTitle: inputValue });
+    
+    if (result.success) {
+      onSearch(result.data.jobTitle);
+      setError(null);
+    } else {
+      setError(result.error.errors[0]?.message || "Please enter a valid job title.");
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setInputValue(value);
     }
   };
 
@@ -72,7 +97,8 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
         <input
           type="text"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={handleInputChange}
+          maxLength={50}
           placeholder={placeholder}
           className={`w-full sm:flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
             isLoading ? 'opacity-50 cursor-not-allowed' : ''

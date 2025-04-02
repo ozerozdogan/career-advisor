@@ -188,10 +188,9 @@ export default function Home() {
               <img 
                 src="/career-path.png" 
                 alt="Career Path Illustration" 
-                className="relative z-10 w-full h-auto max-w-[550px]"
-                onError={(e) => {
-                  e.currentTarget.src = "https://picsum.photos/200/300.jpg";
-                }}
+                width={1024}
+                height={1024}
+                className="relative z-10 w-full h-auto max-w-[600px]"
               />
             </div>
           </div>
