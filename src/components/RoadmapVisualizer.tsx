@@ -10,49 +10,21 @@ import {
   useEdgesState,
   addEdge,
   BackgroundVariant,
-  Node,
-  Edge,
   ConnectionMode,
-  Position,
   Connection,
   useReactFlow,
   ReactFlowProvider,
-  XYPosition,
   Panel,
   getNodesBounds,
-  getViewportForBounds,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomNode from './CustomNode';
 import { toPng } from 'html-to-image';
-
-interface RoadmapData {
-  nodes: Array<{
-  id: string;
-  name: string;
-  description: string;
-    type?: 'primary' | 'secondary' | 'tertiary';
-    group?: string;
-  }>;
-  links: Array<{
-    source: string;
-    target: string;
-  type: string;
-  }>;
-}
+import { generateFlowData } from '../utils/roadmapData';
+import { RoadmapData } from '../types/roadmap';
 
 interface RoadmapVisualizerProps {
   data: RoadmapData;
-}
-
-interface ExtendedNode extends Node {
-  position: XYPosition;
-  data: {
-    name: string;
-    description: string;
-    type?: 'primary' | 'secondary' | 'tertiary';
-    group?: string;
-  };
 }
 
 const nodeTypes = {
@@ -185,66 +157,7 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
     }, 150);
   }, [getNodes, setViewport, getViewport]);
 
-  const initialNodes: Node[] = [];
-  const initialEdges: Edge[] = [];
-  
-  const groups = new Set(data.nodes.map(node => node.group).filter(Boolean));
-  let yOffset = 0;
-  
-  groups.forEach((group) => {
-    if (group) {
-      initialNodes.push({
-        id: `group-${group}`,
-        data: { 
-          label: group,
-        },
-        position: { x: 0, y: yOffset },
-        style: {
-          background: '#4CAF50',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: '8px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          width: 'auto',
-          border: '1px solid #333',
-        },
-      });
-      
-      const groupNodes = data.nodes.filter(n => n.group === group);
-      groupNodes.forEach((node, index) => {
-        const xOffset = (index % 3) * 350;
-        const rowOffset = Math.floor(index / 3) * 200;
-        
-        initialNodes.push({
-          id: node.id,
-          type: 'custom',
-          position: { x: xOffset, y: yOffset + rowOffset + 70 },
-          data: {
-            name: node.name,
-            description: node.description,
-            type: node.type,
-            group: node.group
-          },
-          sourcePosition: Position.Right,
-          targetPosition: Position.Left,
-        });
-      });
-      
-      yOffset += (Math.ceil(groupNodes.length / 3) * 200) + 100;
-    }
-  });
-
-  data.links.forEach((link) => {
-    initialEdges.push({
-      id: `${link.source}-${link.target}`,
-      source: link.source,
-      target: link.target,
-      type: 'smoothstep',
-      animated: true,
-      style: { stroke: '#333' },
-    });
-  });
+  const { nodes: initialNodes, edges: initialEdges } = generateFlowData(data);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);

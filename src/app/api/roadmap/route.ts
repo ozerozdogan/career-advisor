@@ -1,35 +1,12 @@
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { RoadmapData } from '@/types/roadmap';
+import { JobTitleSchema } from '@/schemas/jobTitleSchema';
 
 interface RequestBody {
   jobTitle: string;
 }
-
-interface RoadmapNode {
-  id: string;
-  name: string;
-  description: string;
-  type?: 'primary' | 'secondary' | 'tertiary';
-}
-
-interface RoadmapLink {
-  source: string;
-  target: string;
-  type: string;
-}
-
-interface RoadmapData {
-  nodes: RoadmapNode[];
-  links: RoadmapLink[];
-}
-
-const JobTitleSchema = z.string()
-  .min(1, { message: "Job title cannot be empty" })
-  .max(50, { message: "Job title cannot exceed 50 characters" })
-  .trim()
-  .regex(/^[a-zA-Z\s\/-]+$/, { message: "Job title can only contain letters, spaces, hyphens, and forward slashes" });
 
 const rateLimitRequestsPerMinute = parseInt(process.env.RATE_LIMIT_REQUESTS_PER_MINUTE || "10", 10);
 const ratelimit = new Ratelimit({
@@ -43,8 +20,6 @@ export async function POST(request: Request) {
   try {
     const identifier = "api/roadmap";
     const { success, limit, remaining, reset } = await ratelimit.limit(identifier);
-
-    console.log(success, limit, remaining, reset);
 
     if (!success) {
       const retryAfterSeconds = Math.ceil((reset - Date.now()) / 1000);

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { z } from 'zod';
+import { JobTitleSchema } from '@/schemas/jobTitleSchema';
 
 interface SearchInputProps {
   onSearch: (jobTitle: string) => void;
@@ -25,11 +26,7 @@ const examples = [
 ];
 
 const searchSchema = z.object({
-  jobTitle: z
-    .string()
-    .min(1, "Job title cannot be empty")
-    .max(50, "Job title cannot exceed 50 characters")
-    .trim()
+  jobTitle: JobTitleSchema
 });
 
 export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { z } from 'zod';
+import { JobTitleSchema } from '../schemas/jobTitleSchema';
 import SearchInput from '@/components/SearchInput';
 import RoadmapVisualizer from '@/components/RoadmapVisualizer';
 import LoadingAnimation from '@/components/LoadingAnimation';
@@ -9,27 +9,7 @@ import Footer from '@/components/Footer';
 import Features from '@/components/Features';
 import { fetchRoadmap } from '@/utils/api';
 import Header from '@/components/Header';
-
-interface RoadmapNode {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface RoadmapLink {
-  source: string;
-  target: string;
-  type: string;
-}
-
-interface RoadmapData {
-  nodes: RoadmapNode[];
-  links: RoadmapLink[];
-}
-
-const JobTitleSchema = z.string()
-  .min(1, { message: "Job title cannot be empty" })
-  .regex(/^[a-zA-Z\s\/-]+$/, { message: "Job title can only contain letters, spaces, hyphens, and forward slashes" });
+import { RoadmapData } from '@/types/roadmap';
 
 export default function Home() {
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
