@@ -4,10 +4,11 @@
 ![Next.js](https://img.shields.io/badge/Next.js-Framework-blue)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Styling-blueviolet)
 ![OpenRouter](https://img.shields.io/badge/OpenRouter-AI_Integration-brightgreen)
+![Upstash](https://img.shields.io/badge/Upstash-Rate_Limiting-red)
 
 A web application that helps users define their desired career paths and provides AI-generated learning roadmaps, beautifully visualized with ReactFlow. Built with Next.js, Tailwind CSS, and integrated with OpenRouter API for dynamic roadmap generation. The application generates detailed, interactive career roadmaps with hierarchical skill structures, color-coded by importance levels, allowing users to explore the skills, technologies, and knowledge areas required for their target roles.
 
-> **⚠️ Note:** This is a prototype project currently in development. It was developed with assistance from [Cursor](https://cursor.com/). The application does not include usage/error logging or rate limiting features at this stage. As this is an early version, some features may be incomplete or subject to change.
+> **⚠️ Note:** This is a prototype project currently in development. It was developed with assistance from [Cursor](https://cursor.com/). As this is an early version, some features may be incomplete or subject to change.
 
 ---
 
@@ -18,6 +19,7 @@ A web application that helps users define their desired career paths and provide
 - 📊 Hierarchical display of skills and technologies needed
 - 🎨 Color-coded nodes based on importance (primary, secondary, tertiary)
 - 📱 Responsive design for all devices
+- 🛡️ API rate limiting to prevent abuse
 
 ---
 
@@ -30,6 +32,7 @@ A web application that helps users define their desired career paths and provide
 | **AI Integration** | OpenRouter API | Powers the roadmap generation engine |
 | **Visualization** | [ReactFlow](https://reactflow.dev/) | Interactive career path diagrams |
 | **Validation** | [Zod](https://zod.dev/) | Robust schema validation and type safety |
+| **Rate Limiting** | [Upstash](https://upstash.com/) | Redis-based rate limiting solution |
 
 ---
 
@@ -38,6 +41,7 @@ A web application that helps users define their desired career paths and provide
 ### Prerequisites
 - Node.js (22.14.0, earlier versions were not included in the testing)
 - npm or yarn
+- Upstash Redis account for rate limiting functionality
 
 ### Installation
 
@@ -60,6 +64,9 @@ Update the environment variables in the `.env.local` file.
 ```bash
 OPENROUTER_API_KEY=<your-openrouter-api-key>
 OPENROUTER_MODEL=<your-openrouter-model>
+UPSTASH_REDIS_REST_URL=<your-upstash-redis-rest-url>
+UPSTASH_REDIS_REST_TOKEN=<your-upstash-redis-rest-token>
+RATE_LIMIT_REQUESTS_PER_MINUTE=5
 ```
 
 Run the development server:

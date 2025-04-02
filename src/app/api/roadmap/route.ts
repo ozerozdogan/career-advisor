@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 interface RequestBody {
   jobTitle: string;
@@ -29,8 +31,36 @@ const JobTitleSchema = z.string()
   .trim()
   .regex(/^[a-zA-Z\s\/-]+$/, { message: "Job title can only contain letters, spaces, hyphens, and forward slashes" });
 
+const rateLimitRequestsPerMinute = parseInt(process.env.RATE_LIMIT_REQUESTS_PER_MINUTE || "10", 10);
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(rateLimitRequestsPerMinute, "60 s"),
+  analytics: true,
+  prefix: "@upstash/ratelimit/roadmap",
+});
+
 export async function POST(request: Request) {
   try {
+    const identifier = "api/roadmap";
+    const { success, limit, remaining, reset } = await ratelimit.limit(identifier);
+
+    console.log(success, limit, remaining, reset);
+
+    if (!success) {
+      const retryAfterSeconds = Math.ceil((reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { message: `Too many requests. Please try again in ${retryAfterSeconds} seconds.` },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': limit.toString(),
+            'X-RateLimit-Remaining': remaining.toString(),
+            'X-RateLimit-Reset': reset.toString(),
+          },
+        }
+      );
+    }
+
     const body = await request.json() as RequestBody;
 
     const validationResult = JobTitleSchema.safeParse(body.jobTitle);
@@ -296,7 +326,7 @@ export async function POST(request: Request) {
     
     return NextResponse.json(roadmapData);
   } catch (error) {
-    console.error('Server error:', error);
+    console.error('Error in POST /api/roadmap:', error);
     return NextResponse.json(
       { message: 'An unexpected error occurred. Please try again later.' },
       { status: 500 }
