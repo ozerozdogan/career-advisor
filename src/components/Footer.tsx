@@ -67,7 +67,7 @@ export default function Footer() {
             Disclaimer: Career roadmaps are generated using AI and should be used as general guidance only. Please verify information with industry professionals.
           </p>
           <p className="text-xs text-center mb-0">
-            Credits: <a href="https://www.vecteezy.com/free-png/success" className="text-gray-500 hover:text-blue-600 transition-colors">Success PNGs by Vecteezy</a> | &copy; {new Date().getFullYear()} Career Advisor
+            Credits: <a href="https://lottiefiles.com/animoox" className="text-gray-500 hover:text-blue-600 transition-colors" target="_blank" rel="noopener noreferrer nofollow">Lottie files by Animoox</a><br /><br />&copy; {new Date().getFullYear()} Career Advisor
           </p>
         </div>
       </div>

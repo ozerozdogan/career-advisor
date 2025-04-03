@@ -11,7 +11,10 @@ import { fetchRoadmap } from '@/utils/api';
 import Header from '@/components/Header';
 import { RoadmapData } from '@/types/roadmap';
 import Script from 'next/script';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import businessmanRocketAnimation from '../../public/businessman-rocket.json';
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 export default function Home() {
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -187,14 +190,13 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
                 <div className="absolute inset-0 w-full h-full opacity-30"></div>
-                <Image 
-                  src="/career-path.png" 
-                  alt="Career Path Illustration" 
-                  width={1024}
-                  height={1024}
-                  priority
-                  className="relative z-10 w-full h-auto max-w-[600px]"
-                />
+                <div className="relative z-10 w-full max-w-[600px]">
+                  <Lottie
+                    animationData={businessmanRocketAnimation}
+                    loop={true}
+                    style={{ width: '100%', height: 550 }}
+                  />
+                </div>
               </div>
             </section>
             
