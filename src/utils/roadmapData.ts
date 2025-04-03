@@ -8,6 +8,36 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
   const groups = new Set(data.nodes.map(node => node.group).filter(Boolean));
   let yOffset = 0;
   
+  data.links.forEach((link) => {
+    initialEdges.push({
+      id: `${link.source}-${link.target}`,
+      source: link.source,
+      target: link.target,
+      type: 'smoothstep',
+      animated: true,
+      style: { stroke: '#333' },
+    });
+  });
+  
+  const connectionMap: Record<string, {hasIncoming: boolean, hasOutgoing: boolean}> = {};
+  
+  data.nodes.forEach(node => {
+    connectionMap[node.id] = {
+      hasIncoming: false,
+      hasOutgoing: false
+    };
+  });
+  
+  initialEdges.forEach(edge => {
+    if (connectionMap[edge.source]) {
+      connectionMap[edge.source].hasOutgoing = true;
+    }
+    
+    if (connectionMap[edge.target]) {
+      connectionMap[edge.target].hasIncoming = true;
+    }
+  });
+  
   groups.forEach((group) => {
     if (group) {
       initialNodes.push({
@@ -33,6 +63,8 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
         const xOffset = (index % 3) * 350;
         const rowOffset = Math.floor(index / 3) * 200;
         
+        const connections = connectionMap[node.id] || { hasIncoming: false, hasOutgoing: false };
+        
         initialNodes.push({
           id: node.id,
           type: 'custom',
@@ -41,26 +73,17 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
             name: node.name,
             description: node.description,
             type: node.type,
-            group: node.group
+            group: node.group,
+            hasIncoming: connections.hasIncoming === true,
+            hasOutgoing: connections.hasOutgoing === true
           },
-          sourcePosition: Position.Right,
-          targetPosition: Position.Left,
+          ...(connections.hasOutgoing === true ? { sourcePosition: Position.Right } : {}),
+          ...(connections.hasIncoming === true ? { targetPosition: Position.Left } : {}),
         });
       });
       
       yOffset += (Math.ceil(groupNodes.length / 3) * 200) + 100;
     }
-  });
-
-  data.links.forEach((link) => {
-    initialEdges.push({
-      id: `${link.source}-${link.target}`,
-      source: link.source,
-      target: link.target,
-      type: 'smoothstep',
-      animated: true,
-      style: { stroke: '#333' },
-    });
   });
 
   return { nodes: initialNodes, edges: initialEdges };

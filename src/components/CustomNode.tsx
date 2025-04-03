@@ -7,6 +7,8 @@ interface CustomNodeProps {
     description: string;
     type?: 'primary' | 'secondary' | 'tertiary';
     group?: string;
+    hasIncoming?: boolean;
+    hasOutgoing?: boolean;
   };
 }
 
@@ -46,9 +48,17 @@ const CustomNode = memo(({ data }: CustomNodeProps) => {
 
   const colors = getNodeColor();
 
+  const showLeftHandle = data.hasIncoming === true;
+  const showRightHandle = data.hasOutgoing === true;
+
   return (
     <div className="group relative">
-      <Handle type="target" position={Position.Left} />
+      {showLeftHandle && (
+        <Handle 
+          type="target" 
+          position={Position.Left} 
+        />
+      )}
       
       <div 
         className="px-3 py-2 rounded-lg shadow-sm transition-all hover:shadow-md min-w-[180px] max-w-[220px]"
@@ -73,7 +83,12 @@ const CustomNode = memo(({ data }: CustomNodeProps) => {
         </p>
       </div>
 
-      <Handle type="source" position={Position.Right} />
+      {showRightHandle && (
+        <Handle 
+          type="source" 
+          position={Position.Right}
+        />
+      )}
     </div>
   );
 });
