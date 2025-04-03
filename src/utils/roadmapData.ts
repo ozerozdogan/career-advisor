@@ -42,20 +42,12 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
     if (group) {
       initialNodes.push({
         id: `group-${group}`,
+        type: 'groupHeader',
         data: { 
           label: group,
         },
         position: { x: 0, y: yOffset },
-        style: {
-          background: '#4CAF50',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: '8px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          width: 'auto',
-          border: '1px solid #333',
-        },
+        connectable: false,
       });
       
       const groupNodes = data.nodes.filter(n => n.group === group);

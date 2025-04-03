@@ -18,7 +18,8 @@ import {
   getNodesBounds,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import CustomNode from './CustomNode';
+import GroupItem from './GroupItem';
+import GroupHeaderNode from './GroupHeaderNode';
 import { toPng } from 'html-to-image';
 import { generateFlowData } from '../utils/roadmapData';
 import { RoadmapData } from '../types/roadmap';
@@ -28,7 +29,8 @@ interface RoadmapVisualizerProps {
 }
 
 const nodeTypes = {
-  custom: CustomNode
+  custom: GroupItem,
+  groupHeader: GroupHeaderNode
 } as const;
 
 function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {

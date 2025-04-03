@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
-interface CustomNodeProps {
+interface GroupItemProps {
   data: {
     name: string;
     description: string;
@@ -12,7 +12,7 @@ interface CustomNodeProps {
   };
 }
 
-const CustomNode = memo(({ data }: CustomNodeProps) => {
+const GroupItem = memo(({ data }: GroupItemProps) => {
   const getNodeColor = () => {
     switch (data.type) {
       case 'primary':
@@ -93,5 +93,5 @@ const CustomNode = memo(({ data }: CustomNodeProps) => {
   );
 });
 
-CustomNode.displayName = 'CustomNode';
-export default CustomNode; 
+GroupItem.displayName = 'GroupItem';
+export default GroupItem; 
