@@ -247,7 +247,6 @@ export async function POST(request: Request) {
     const data = await response.json();
     
     const content = data.choices[0].message.content;
-    console.log(content);
     let roadmapData: RoadmapData;
     
     try {
