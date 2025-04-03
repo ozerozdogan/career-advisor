@@ -12,7 +12,6 @@ import Header from '@/components/Header';
 import { RoadmapData } from '@/types/roadmap';
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
-import businessmanRocketAnimation from '../../public/businessman-rocket.json';
 
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
@@ -27,6 +26,7 @@ export default function Home() {
   
   const [showLoadingPopup, setShowLoadingPopup] = useState<boolean>(false);
   const loadingPopupRef = useRef<HTMLDivElement>(null);
+  const [animationData, setAnimationData] = useState<any>(null);
 
   const handleClosePopup = () => {
     setIsClosing(true);
@@ -51,6 +51,16 @@ export default function Home() {
       document.body.style.paddingRight = '0px';
     };
   }, [showLoadingPopup, showPopup]);
+
+  useEffect(() => {
+    import('../../public/businessman-rocket.json')
+      .then((animationJson) => {
+        setAnimationData(animationJson.default);
+      })
+      .catch((error) => {
+        console.error("Error loading Lottie animation:", error);
+      });
+  }, []);
 
   const handleSearch = async (jobTitle: string) => {
     const validationResult = JobTitleSchema.safeParse(jobTitle);
@@ -191,11 +201,13 @@ export default function Home() {
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
                 <div className="absolute inset-0 w-full h-full opacity-30"></div>
                 <div className="relative z-10 w-full max-w-[600px]">
-                  <Lottie
-                    animationData={businessmanRocketAnimation}
-                    loop={true}
-                    style={{ width: '100%', height: 550 }}
-                  />
+                  {animationData && (
+                    <Lottie
+                      animationData={animationData}
+                      loop={true}
+                      style={{ width: '100%', height: 550 }}
+                    />
+                  )}
                 </div>
               </div>
             </section>
