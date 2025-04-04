@@ -13,8 +13,8 @@ const Features = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold text-slate-800 mb-2 text-center">Interactive Learning Paths</h3>
-          <p className="text-slate-600 text-center">Visualize your technical career journey with downloadable, interactive roadmaps</p>
+          <h3 className="text-xl font-semibold text-slate-800 mb-2 text-center">Comprehensive Roadmaps</h3>
+          <p className="text-slate-600 text-center">Download detailed career progression plans with structured skills hierarchy</p>
         </div>
         
         <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
@@ -33,8 +33,8 @@ const Features = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold text-slate-800 mb-2 text-center">Job-Specific Expertise</h3>
-          <p className="text-slate-600 text-center">Tailored technological roadmaps for diverse IT and development roles</p>
+          <h3 className="text-xl font-semibold text-slate-800 mb-2 text-center">Universal Career Planning</h3>
+          <p className="text-slate-600 text-center">Tailored roadmaps for any profession, from tech to healthcare, finance to education</p>
         </div>
       </div>
     </div>
