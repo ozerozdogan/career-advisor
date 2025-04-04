@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-The Career Advisor is an AI-powered web application that generates detailed, interactive career roadmaps for various job titles. Using OpenRouter API to leverage AI models, the application creates visualizations of skills, technologies, and knowledge areas required for specific career paths.
+The Career Advisor is an AI-powered web application that generates detailed career roadmaps for various job titles. Using OpenRouter API to leverage AI models, the application creates visualizations of skills, technologies, and knowledge areas required for specific career paths.
 
 ## 2. Target Audience
 
@@ -19,7 +19,7 @@ The Career Advisor is an AI-powered web application that generates detailed, int
 | Frontend Framework | Next.js | React framework for building the UI |
 | Styling | TailwindCSS | Utility-first CSS framework |
 | AI Integration | OpenRouter API | Powers the roadmap generation engine |
-| Visualization | ReactFlow | Interactive career path diagrams |
+| Visualization | ReactFlow | Career path diagrams |
 | Validation | Zod | Schema validation and type safety |
 
 ## 4. Features
@@ -31,7 +31,7 @@ The Career Advisor is an AI-powered web application that generates detailed, int
    - Structure data in hierarchical format with primary, secondary, tertiary importance levels
    - Color-code nodes based on importance level
 
-2. **Interactive Roadmap Visualization**
+2. **Roadmap Visualization**
    - Display career paths with connected nodes
    - Allow zooming, panning, and download as image
    - Show detailed descriptions below the title of the node
@@ -83,12 +83,12 @@ The Career Advisor is an AI-powered web application that generates detailed, int
 
 3. **Features Section**
    - Three feature cards highlighting key capabilities:
-     - Interactive Learning Paths
+     - Learning Paths
      - AI-Powered Skills Mapping
      - Industry-Specific Guidance
 
 4. **Roadmap Visualization Section**
-   - Interactive diagram showing career roadmap (appears after generation)
+   - Diagram showing career roadmap (appears after generation)
    - Map of the roadmap
    - Download button
    - Zoom in and out buttons
@@ -287,7 +287,7 @@ For the requested job title, create a similar structure with:
 
 ### 8.3 RoadmapVisualizer Component
 
-- Interactive graph using ReactFlow
+- Graph using ReactFlow
 - Node styling based on importance level
 - Pan and zoom controls
 - Download button
