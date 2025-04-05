@@ -300,7 +300,8 @@ Create a `.env.local` file with the following variables:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3000/api
 OPENROUTER_API_KEY=your_openrouter_api_key
-OPENROUTER_MODEL=google/gemini-2.0-flash-lite-001
+OPENROUTER_CHECK_MODEL=google/gemini-flash-1.5-8b
+OPENROUTER_ROADMAP_MODEL=openai/o3-mini-high
 ```
 
 ## 10. Development Steps

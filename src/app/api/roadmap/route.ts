@@ -57,7 +57,7 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'model': 'google/gemini-flash-1.5-8b',
+        'model': process.env.OPENROUTER_CHECK_MODEL,
         'messages': [
           {
             'role': 'user',
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'model': process.env.OPENROUTER_MODEL,
+        'model': process.env.OPENROUTER_ROADMAP_MODEL,
         'messages': [
           {
             'role': 'user',
