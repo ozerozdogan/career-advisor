@@ -255,6 +255,13 @@ export async function POST(request: Request) {
     
     const data = await response.json();
     
+    if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+      return NextResponse.json(
+        { message: 'Received invalid response format from AI service.' },
+        { status: 500 }
+      );
+    }
+    
     const content = data.choices[0].message.content;
     let roadmapData: RoadmapData;
     
