@@ -5,13 +5,27 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
   const initialNodes: Node[] = [];
   const initialEdges: Edge[] = [];
   
+  const nodeIds = new Set<string>();
+  const nodeIdMap: Record<string, string> = {};
+  
+  data.nodes.forEach(node => {
+    if (nodeIds.has(node.id)) {
+      const uniqueId = `${node.id}_${Math.random().toString(36).substring(2, 7)}`;
+      nodeIdMap[node.id] = uniqueId;
+    } else {
+      nodeIds.add(node.id);
+      nodeIdMap[node.id] = node.id;
+    }
+  });
+  
   const groups = new Set(data.nodes.map(node => node.group).filter(Boolean));
   let yOffset = 0;
   
   const connectionMap: Record<string, {hasIncoming: boolean, hasOutgoing: boolean}> = {};
   
   data.nodes.forEach(node => {
-    connectionMap[node.id] = {
+    const uniqueId = nodeIdMap[node.id] || node.id;
+    connectionMap[uniqueId] = {
       hasIncoming: false,
       hasOutgoing: false
     };
@@ -19,18 +33,21 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
   
   if (Array.isArray(data.links) && data.links.length > 0) {
     data.links.forEach((link) => {
-      if (connectionMap[link.source]) {
-        connectionMap[link.source].hasOutgoing = true;
+      const sourceId = nodeIdMap[link.source] || link.source;
+      const targetId = nodeIdMap[link.target] || link.target;
+      
+      if (connectionMap[sourceId]) {
+        connectionMap[sourceId].hasOutgoing = true;
       }
       
-      if (connectionMap[link.target]) {
-        connectionMap[link.target].hasIncoming = true;
+      if (connectionMap[targetId]) {
+        connectionMap[targetId].hasIncoming = true;
       }
       
       initialEdges.push({
-        id: `${link.source}-${link.target}`,
-        source: link.source,
-        target: link.target,
+        id: `${sourceId}-${targetId}`,
+        source: sourceId,
+        target: targetId,
         type: 'smoothstep',
         animated: true,
         style: { 
@@ -63,8 +80,11 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
       const groupNodes = data.nodes.filter(n => n.group === group);
       
       const sortedNodes = [...groupNodes].sort((a, b) => {
-        const aConn = connectionMap[a.id] || { hasIncoming: false, hasOutgoing: false };
-        const bConn = connectionMap[b.id] || { hasIncoming: false, hasOutgoing: false };
+        const aId = nodeIdMap[a.id] || a.id;
+        const bId = nodeIdMap[b.id] || b.id;
+        
+        const aConn = connectionMap[aId] || { hasIncoming: false, hasOutgoing: false };
+        const bConn = connectionMap[bId] || { hasIncoming: false, hasOutgoing: false };
         
         if (aConn.hasIncoming && !bConn.hasIncoming) return -1;
         if (!aConn.hasIncoming && bConn.hasIncoming) return 1;
@@ -82,10 +102,11 @@ export function generateFlowData(data: RoadmapData): { nodes: Node[], edges: Edg
         const xOffset = col * (NODE_WIDTH + HORIZONTAL_GAP);
         const rowOffset = row * (NODE_HEIGHT + VERTICAL_GAP);
         
-        const connections = connectionMap[node.id] || { hasIncoming: false, hasOutgoing: false };
+        const uniqueId = nodeIdMap[node.id] || node.id;
+        const connections = connectionMap[uniqueId] || { hasIncoming: false, hasOutgoing: false };
         
         initialNodes.push({
-          id: node.id,
+          id: uniqueId,
           type: 'custom',
           position: { x: xOffset, y: yOffset + rowOffset + 80 },
           data: {
