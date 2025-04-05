@@ -55,7 +55,7 @@ The Career Advisor is an AI-powered web application that generates detailed care
 
 1. **As a user, I want to generate a career roadmap by entering a job title**
    - Enter job title in the search input
-   - Click "Generate Roadmap" button
+   - Click "Plan My Career" button
    - See loading animation while roadmap is being generated
    - View completed roadmap visualization
 
@@ -78,7 +78,7 @@ The Career Advisor is an AI-powered web application that generates detailed care
 2. **Hero Section**
    - Headline: "Discover your career, plan your future"
    - Subheadline: "Create the roadmap you need to reach your professional goals with our AI-powered career planning tool."
-   - Search input with "Generate Roadmap" button
+   - Search input with "Plan My Career" button
    - Error message display area
 
 3. **Features Section**
@@ -265,7 +265,7 @@ For the requested job title, create a similar structure with:
 ### 8.1 SearchInput Component
 
 - Input field for job title
-- Submit button labeled "Generate Roadmap"
+- Submit button labeled "Plan My Career"
 - Error message display
 - Loading state handling
 

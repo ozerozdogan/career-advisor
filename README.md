@@ -1,6 +1,10 @@
 # Career Advisor - AI-Powered Career Roadmap Generator
 
-A web application that creates personalized career development paths powered by artificial intelligence. Users simply enter their target job titles to receive comprehensive visual learning roadmaps highlighting:
+![Career Advisor - AI-Powered Career Roadmap Generator](public/homepage-hero.png)
+
+<br />
+
+A web application that creates personalized career development paths powered by AI. Users simply enter their target job titles to receive comprehensive visual learning roadmaps highlighting:
 
 - Essential skills and competencies
 - Relevant technologies and tools
@@ -10,7 +14,7 @@ Built with Next.js and ReactFlow, the application displays intuitive, color-code
 
 > **⚠️ Warning:** This application is currently in prototype stage. Users assume full responsibility when implementing in production environments. Before deployment, we recommend implementing security enhancements, performance optimization, and thorough testing. Roadmap accuracy can be further improved by refining AI prompts and selecting specialized models aligned with your specific industry requirements.
 
----
+<br />
 
 ## 📑 Table of Contents
 
@@ -28,8 +32,6 @@ Built with Next.js and ReactFlow, the application displays intuitive, color-code
 - [Deployment](#-deployment)
 - [License](#-license)
 
----
-
 ## ✨ Features
 
 - AI-powered career roadmap generation for any job title
@@ -39,8 +41,6 @@ Built with Next.js and ReactFlow, the application displays intuitive, color-code
 - Responsive design
 - API rate limiting
 
----
-
 ## 🛠️ Built With
 
 - [Next.js](https://nextjs.org/)
@@ -49,8 +49,6 @@ Built with Next.js and ReactFlow, the application displays intuitive, color-code
 - [OpenRouter API](https://openrouter.ai/)
 - [Upstash Redis](https://upstash.com/)
 - [Zod](https://zod.dev/)
-
----
 
 ## 🚦 Getting Started
 
@@ -108,13 +106,11 @@ npm run dev
 
 5. Navigate to `http://localhost:3000` to view the application.
 
----
-
 ## 📋 Usage
 
 1. Open the application in your browser
 2. Enter your target job or position title in the input field (e.g., "Software Developer", "Data Scientist")
-3. Click "Generate Roadmap"
+3. Click "Plan My Career"
 4. Wait briefly while the AI generates your personalized career roadmap
 5. Examine your career roadmap in the visualization panel:
    - Blue boxes: Core skills and competencies (high priority)
@@ -122,8 +118,6 @@ npm run dev
    - Orange boxes: Complementary skills (low priority)
 6. Explore the details by zooming in and out of your roadmap
 7. Optionally download your roadmap as an image for your career planning
-
----
 
 ## ⚙️ Configuration
 
@@ -158,8 +152,6 @@ OPENROUTER_ROADMAP_MODEL=anthropic/claude-3-opus
 ### Rate Limiting
 The application includes rate limiting to prevent abuse. By default, it allows 5 requests per minute per IP address. You can adjust this by changing the `RATE_LIMIT_REQUESTS_PER_MINUTE` value in your `.env.local` file.
 
----
-
 ## 🏗️ Project Structure
 
 ```
@@ -176,8 +168,6 @@ career-advisor/
 ├── public/                # Static assets
 └── ...                    # Configuration files
 ```
-
----
 
 ## 🔧 Troubleshooting
 
@@ -197,28 +187,6 @@ career-advisor/
 ### Loading Issues
 - If the application gets stuck loading, check your network connection
 - OpenRouter API response times can vary significantly (from a few seconds to longer periods) depending on the latency of the AI provider selected
-
----
-
-## 🚀 Deployment
-
-The application can be deployed to various platforms:
-
-### Vercel (Recommended)
-1. Fork or clone this repository to your GitHub account
-2. Create a new project on [Vercel](https://vercel.com/)
-3. Connect your GitHub repository
-4. Add the environment variables in the Vercel project settings
-5. Deploy with default settings
-
-### Netlify
-1. Fork or clone this repository to your GitHub account
-2. Create a new site on [Netlify](https://netlify.com/)
-3. Connect your GitHub repository
-4. Add the environment variables in the Netlify site settings
-5. Deploy with default settings
-
----
 
 ## 📄 License
 
