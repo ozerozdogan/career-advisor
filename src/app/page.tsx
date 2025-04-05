@@ -37,6 +37,19 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showPopup) {
+        handleClosePopup();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey);
+    };
+  }, [showPopup]);
+
+  useEffect(() => {
     if (showLoadingPopup || showPopup) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
