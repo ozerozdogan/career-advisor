@@ -2,7 +2,7 @@ import React from 'react';
 
 const Features = () => {
   return (
-    <div className="mb-20">
+    <div className="mb-20 z-1">
       <h2 className="text-3xl font-bold text-center text-slate-800 mb-12">
         Advanced Career Roadmapping
       </h2>

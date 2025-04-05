@@ -86,7 +86,7 @@ export default function Home() {
         setLoadingStage(prevStage => {
           return prevStage < 10 ? prevStage + 1 : prevStage;
         });
-      }, 1000);
+      }, 2000);
       
       const data = await fetchRoadmap(validationResult.data);
       setRoadmapData(data);
@@ -131,10 +131,10 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
         <Header />
         <main className="py-0" role="main">
-          <div className="container mx-auto px-4 md:px-6 xl:max-w-7xl flex flex-col h-full">
+          <div className="container mx-auto px-4 md:px-6 xl:max-w-7xl flex flex-col h-full overflow-x-hidden">
             <section className="flex flex-col lg:flex-row items-center justify-center gap-12 min-h-[calc(100vh-80px)] mb-10 pt-20 lg:pt-0">
-              <div className="lg:w-1/2 space-y-6 max-w-2xl">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
+              <div className="lg:w-1/2 space-y-6 max-w-2xl z-1">
+                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                     Discover
                   </span>{" "}
@@ -197,15 +197,19 @@ export default function Home() {
               </div>
               
               <div className="lg:w-1/2 relative flex justify-center items-center max-w-2xl">
-                <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-                <div className="absolute inset-0 w-full h-full opacity-30"></div>
-                <div className="relative z-10 w-full max-w-[600px]">
+                <div className="absolute inset-0 w-full h-full opacity-80 z-0">
+                  <div className="cloud-w-1"><div className="cloud"></div></div>
+                  <div className="cloud-w-2"><div className="cloud"></div></div>
+                  <div className="cloud-w-3"><div className="cloud"></div></div>
+                  <div className="cloud-w-4"><div className="cloud"></div></div>
+                  <div className="cloud-w-5"><div className="cloud"></div></div>
+                </div>
+                <div className="relative z-10 w-full max-w-[600px] z-1 rotate-y-180">
                   {animationData && (
                     <Lottie
                       animationData={animationData}
                       loop={true}
-                      style={{ width: '100%', height: 550 }}
+                      className="rocketman w-full h-[350px] md:h-[550px]"
                     />
                   )}
                 </div>
@@ -249,7 +253,7 @@ export default function Home() {
                   onClick={handleClosePopup}
                   className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur-sm rounded-full p-2 
                             hover:bg-gray-100 transition-all duration-200 shadow-lg 
-                            hover:shadow-xl hover:scale-110 active:scale-95"
+                            hover:shadow-xl hover:scale-110 active:scale-95 cursor-pointer"
                   aria-label="Close career roadmap"
                 >
                   <svg
