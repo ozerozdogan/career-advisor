@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <header className="bg-white border-b border-slate-200 shadow-sm">
-      <div className="container mx-auto px-4 md:px-6 py-4">
+      <div className="container mx-auto px-4 md:px-6 py-4 xl:max-w-7xl">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <svg
