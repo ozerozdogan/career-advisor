@@ -16,6 +16,8 @@ import {
   ReactFlowProvider,
   Panel,
   getNodesBounds,
+  Node,
+  Edge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import GroupItem from './GroupItem';
@@ -34,36 +36,49 @@ const nodeTypes = {
 } as const;
 
 function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
-  const { getNodes, fitView: fitViewFunc, setViewport, getViewport } = useReactFlow();
+  const { getNodes, fitView: fitViewFunc, setViewport, getViewport, zoomTo } = useReactFlow();
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [groups, setGroups] = useState<string[]>([]);
+  
+  const { nodes: initialNodes, edges: initialEdges } = generateFlowData(data);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    const extractedGroups = nodes
+      .filter(node => node.id.startsWith('group-'))
+      .map(node => node.id.replace('group-', ''));
+    setGroups(extractedGroups);
+  }, [nodes]);
   
   useEffect(() => {
     const timer = setTimeout(() => {
       const allNodes = getNodes();
       if (allNodes.length === 0) return;
-      
-      const topNodes = [...allNodes].sort((a, b) => a.position.y - b.position.y);
-      const topNode = topNodes[0];
-      
-      setViewport(
-        { 
-          x: 0, 
-          y: 0, 
-          zoom: 0.6
-        }, 
-        { duration: 800 }
-      );
-      
-      if (topNode) {
-        const groupNodes = allNodes.filter(n => n.id.startsWith('group-'));
-        if (groupNodes.length > 0) {
-          const firstGroupNode = groupNodes[0];
+
+      const topGroupNode = allNodes
+        .filter(node => node.id.startsWith('group-'))
+        .sort((a, b) => a.position.y - b.position.y)[0];
+
+      if (topGroupNode) {
+        setViewport(
+          {
+            x: -topGroupNode.position.x + 200,
+            y: -topGroupNode.position.y + 50,
+            zoom: 1
+          },
+          { duration: 800 }
+        );
+      } else {
+        const topNode = [...allNodes].sort((a, b) => a.position.y - b.position.y)[0];
+        if (topNode) {
           setViewport(
-            { 
-              x: -firstGroupNode.position.x + 200, 
-              y: -firstGroupNode.position.y + 50,
+            {
+              x: -topNode.position.x + 100,
+              y: -topNode.position.y + 50,
               zoom: 1
-            }, 
-            { duration: 1000 }
+            },
+            { duration: 800 }
           );
         }
       }
@@ -71,6 +86,11 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
     
     return () => clearTimeout(timer);
   }, [getNodes, setViewport]);
+
+  const onConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
   const downloadImage = useCallback(() => {
     const flowElement = document.querySelector('.react-flow') as HTMLElement;
@@ -159,28 +179,77 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
     }, 150);
   }, [getNodes, setViewport, getViewport]);
 
-  const { nodes: initialNodes, edges: initialEdges } = generateFlowData(data);
+  const filteredNodes = selectedGroup
+    ? nodes.filter(node => 
+        node.id.startsWith('group-') 
+          ? node.id === `group-${selectedGroup}`
+          : (node.data?.group === selectedGroup)
+      )
+    : nodes;
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const filteredEdges = selectedGroup
+    ? edges.filter(edge => {
+        const sourceNode = nodes.find(node => node.id === edge.source);
+        const targetNode = nodes.find(node => node.id === edge.target);
+        return (sourceNode?.data?.group === selectedGroup) && (targetNode?.data?.group === selectedGroup);
+      })
+    : edges;
 
-  const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const handleGroupSelect = (group: string) => {
+    if (selectedGroup === group) {
+      setSelectedGroup(null);
+    } else {
+      setSelectedGroup(group);
+      
+      const groupNode = nodes.find(node => node.id === `group-${group}`);
+      if (groupNode) {
+        setTimeout(() => {
+          setViewport({ 
+            x: -groupNode.position.x + 200, 
+            y: -groupNode.position.y + 100, 
+            zoom: 1 
+          }, { duration: 800 });
+        }, 50);
+      }
+    }
+  };
+
+  const handleResetView = () => {
+    setSelectedGroup(null);
+    
+    setTimeout(() => {
+      const allNodes = getNodes();
+      if (allNodes.length === 0) return;
+
+      const topGroupNode = allNodes
+        .filter(node => node.id.startsWith('group-'))
+        .sort((a, b) => a.position.y - b.position.y)[0];
+
+      if (topGroupNode) {
+        setViewport(
+          {
+            x: -topGroupNode.position.x + 200,
+            y: -topGroupNode.position.y + 50,
+            zoom: 1
+          },
+          { duration: 800 }
+        );
+      }
+    }, 50);
+  };
 
   return (
     <div className="w-full h-[800px] relative z-9">
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={filteredNodes}
+        edges={filteredEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         connectionMode={ConnectionMode.Loose}
         fitView={false}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
+        defaultViewport={{ x: 0, y: 0, zoom: 1 }}
         attributionPosition="bottom-left"
         nodesDraggable={false}
         nodesConnectable={false}
@@ -197,9 +266,59 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
         maxZoom={2}
       >
         <Controls />
-        <MiniMap />
+        <MiniMap 
+          nodeStrokeColor={(n) => {
+            if (n.type === 'custom') {
+              return n.data.type === 'primary' 
+                ? '#1D4ED8' 
+                : n.data.type === 'secondary' 
+                  ? '#D97706' 
+                  : '#EA580C';
+            }
+            return '#000';
+          }}
+          nodeColor={(n) => {
+            if (n.type === 'custom') {
+              return n.data.type === 'primary' 
+                ? '#DBEAFE' 
+                : n.data.type === 'secondary' 
+                  ? '#FEF08A' 
+                  : '#FFEDD5';
+            }
+            return '#fff';
+          }}
+        />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         
+        <Panel position="center-right" className="bg-white p-3 rounded-lg shadow-md border border-gray-200 hidden lg:block">
+          <div className="flex flex-col gap-2 items-start">
+            <h3 className="text-sm font-semibold text-gray-700 mb-1">Filter by Group</h3>
+            <div className="flex flex-wrap gap-2 max-w-xs">
+              {groups.map((group) => (
+                <button
+                  key={group}
+                  onClick={() => handleGroupSelect(group)}
+                  className={`text-xs px-2 py-1 rounded-full font-medium transition-all ${
+                    selectedGroup === group
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {group}
+                </button>
+              ))}
+              {selectedGroup && (
+                <button
+                  onClick={handleResetView}
+                  className="text-xs px-2 py-1 rounded-full font-medium bg-gray-700 text-white hover:bg-gray-800 transition-all"
+                >
+                  Reset View
+                </button>
+              )}
+            </div>
+          </div>
+        </Panel>
+
         <Panel position="bottom-right">
           <button 
             onClick={downloadImage}
@@ -216,7 +335,7 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
         </Panel>
       </ReactFlow>
 
-      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-md border border-gray-200">
+      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-md border border-gray-200 hidden lg:block">
         <div className="flex flex-col gap-2">
           <h3 className="text-sm font-semibold text-gray-700 mb-1">Priority Level</h3>
           <div className="flex items-center gap-2">

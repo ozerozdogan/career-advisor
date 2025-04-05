@@ -1,4 +1,3 @@
-// Create a shared types file
 export interface RoadmapNode {
   id: string;
   name: string;

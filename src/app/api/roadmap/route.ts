@@ -118,7 +118,7 @@ export async function POST(request: Request) {
               - secondary: Important (yellow background)
               - tertiary: Normal (light orange background)
             3. Group related technologies and concepts together
-            4. Create meaningful connections between nodes
+            4. Create meaningful connections between nodes WITHIN each group.
 
             IMPORTANT: Consider both technical skills AND soft skills that are relevant to the ${jobTitle} role. Depending on the role, include appropriate soft skills such as:
             
@@ -128,6 +128,15 @@ export async function POST(request: Request) {
             - Career Development aspects (if important for career progression in this field)
 
             The goal is to create a well-balanced roadmap that reflects ALL important aspects of the ${jobTitle} role, not just technical requirements.
+
+            IMPORTANT GUIDELINES FOR CLEAN VISUALIZATION:
+            1. Organize nodes into clear, logical groups with distinct boundaries
+            2. Keep connections simple - primarily connect nodes within the same group
+            3. Avoid creating too many connections between nodes in different groups
+            4. Structure the groups in a logical progression order (basics first, advanced topics later)
+            5. Limit the number of nodes per group to 9 or fewer if possible
+            6. Ensure each group has a clear, descriptive name
+            7. Make sure node names are short and descriptive
 
             For example, for a DevOps role, the structure would include:
             1. Learn programming languages:
