@@ -115,7 +115,7 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
     panelElement && Array.from(panelElement).forEach(element => 
       (element as HTMLElement).style.display = 'none'
     );
-    if (backgroundElement) (backgroundElement as HTMLElement).style.opacity = '1'; 
+    if (backgroundElement) (backgroundElement as HTMLElement).style.opacity = '0'; 
     flowElement.style.backgroundColor = '#ffffff';
 
     const originalStyles = {
