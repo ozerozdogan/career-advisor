@@ -145,14 +145,17 @@ export default function Home() {
         <Header />
         <main className="py-0" role="main">
           <div className="container mx-auto px-4 md:px-6 xl:max-w-7xl flex flex-col h-full overflow-x-hidden">
+          
             <section className="flex flex-col lg:flex-row items-center justify-center gap-12 min-h-[calc(100vh-80px)] mb-10 pt-20 lg:pt-0">
               <div className="lg:w-1/2 space-y-6 max-w-2xl z-1">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                    Discover
-                  </span>{" "}
-                  your career,<br />plan your future
-                </h1>
+                <div className="relative">
+                  <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Discover
+                    </span>{" "}
+                    your career,<br />plan your future
+                  </h1>
+                </div>
                 <p className="text-xl text-slate-600 leading-relaxed">
                   Create the roadmap you need to reach your professional goals<br />with our AI-powered career planning tool.
                 </p>
@@ -210,7 +213,7 @@ export default function Home() {
               </div>
               
               <div className="lg:w-1/2 relative flex justify-center items-center max-w-2xl">
-                <div className="absolute inset-0 w-full h-full opacity-80 z-0">
+                <div className="absolute inset-0 w-full h-full opacity-90 z-0">
                   <div className="cloud-w-1"><div className="cloud"></div></div>
                   <div className="cloud-w-2"><div className="cloud"></div></div>
                   <div className="cloud-w-3"><div className="cloud"></div></div>
