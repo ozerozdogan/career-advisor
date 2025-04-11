@@ -85,6 +85,7 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
     const value = e.target.value;
     if (value.length <= 50) {
       setInputValue(value);
+      setError(null);
     }
   };
 
@@ -112,6 +113,11 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
           {isLoading ? 'Creating Roadmap...' : 'Plan My Career'}
         </button>
       </div>
+      {error && (
+        <div className="mt-2">
+          <p className="text-red-600 text-sm">{error}</p>
+        </div>
+      )}
     </form>
   );
 } 
