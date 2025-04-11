@@ -66,13 +66,18 @@ export default function Home() {
   }, [showLoadingPopup, showPopup]);
 
   useEffect(() => {
-    import('../../public/businessman-rocket.json')
-      .then((animationJson) => {
-        setAnimationData(animationJson.default);
-      })
-      .catch((error) => {
+    const loadAnimation = async () => {
+      try {
+        const response = await fetch('/businessman-rocket.json');
+        const animationData = await response.json();
+        setAnimationData(animationData);
+      } catch (error) {
         console.error("Error loading Lottie animation:", error);
-      });
+        setAnimationData(null);
+      }
+    };
+    
+    loadAnimation();
   }, []);
 
   const handleSearch = async (jobTitle: string) => {
