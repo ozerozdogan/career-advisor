@@ -81,6 +81,11 @@ export default function Home() {
   }, []);
 
   const handleSearch = async (jobTitle: string) => {
+    if (jobTitle === '') {
+      setError(null);
+      return;
+    }
+
     const validationResult = JobTitleSchema.safeParse(jobTitle);
 
     if (!validationResult.success) {

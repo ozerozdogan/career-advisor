@@ -86,6 +86,7 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
     if (value.length <= 50) {
       setInputValue(value);
       setError(null);
+      onSearch('');
     }
   };
 
@@ -114,8 +115,10 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
         </button>
       </div>
       {error && (
-        <div className="mt-2">
-          <p className="text-red-600 text-sm">{error}</p>
+        <div className="mt-4">
+          <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded-lg" role="alert" aria-live="assertive">
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
         </div>
       )}
     </form>
