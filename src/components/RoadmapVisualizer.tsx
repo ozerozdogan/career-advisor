@@ -304,7 +304,7 @@ function RoadmapVisualizerContent({ data }: RoadmapVisualizerProps) {
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {group}
+                  {group.replaceAll('_', ' ')}
                 </button>
               ))}
               {selectedGroup && (
