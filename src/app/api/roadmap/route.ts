@@ -127,7 +127,15 @@ export async function POST(request: Request) {
             - Interpersonal Skills (teamwork, leadership, etc. as appropriate)
             - Career Development aspects (if important for career progression in this field)
 
-            The goal is to create a well-balanced roadmap that reflects ALL important aspects of the ${jobTitle} role, not just technical requirements.
+            Tools:
+            Research and include ONLY the tools that are relevant and necessary for the ${jobTitle} role:
+            - Commonly used in the ${jobTitle} industry
+            - Essential for the specific role's daily tasks
+            - Industry-standard tools for the position
+            - Tools mentioned in job descriptions for ${jobTitle}
+            - Technologies that give competitive advantage in the field
+
+            The goal is to create a well-balanced roadmap that reflects ALL important aspects of the ${jobTitle} role, not just technical requirements. And include ONLY the tools that are truly essential for success in the ${jobTitle} position.
 
             IMPORTANT GUIDELINES FOR CLEAN VISUALIZATION:
             1. Organize nodes into clear, logical groups with distinct boundaries
